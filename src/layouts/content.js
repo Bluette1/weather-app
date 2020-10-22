@@ -36,7 +36,7 @@ async function displayData(currNode, parentElement, value) {
 
 }
 
-function toDateUTCTime(secs) {
+const toDateUTCTime = (secs) => {
   return moment().utcOffset(secs / 60);
 }
 
