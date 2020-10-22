@@ -45,17 +45,18 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "babel-loader": "^8.1.0",
     "bootstrap": "^4.5.2",
+    "css-loader": "^4.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "normalize.css": "^8.0.1",
+    "file-loader": "^6.1.1",
     "jquery": "^3.5.1",
+    "moment": "^2.29.1",
+    "normalize.css": "^8.0.1",
     "popper.js": "^1.16.1",
     "sass-loader": "^10.0.3",
-    "style-loader": "^2.0.0",
-    "babel-loader": "^8.1.0",
-    "file-loader": "^6.1.1",
-    "css-loader": "^4.3.0"
+    "style-loader": "^2.0.0"
   },
   "bugs": {
     "url": "https://github.com/Bluette1/weather-app/issues"

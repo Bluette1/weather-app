@@ -1,4 +1,5 @@
 const url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=0fc88a8e4b0bd9b97cf191933bfdcbd8';
+const moment = require('moment');
 
 const displayContent = (rootElement) => {
   const mainContent = document.createElement('div');
@@ -11,7 +12,7 @@ const displayContent = (rootElement) => {
   weatherDescription.appendChild(currWeather);
   const currTime = document.createElement('p');
 
-  displayData(currTime, weatherDescription, 'dt');
+  displayData(currTime, weatherDescription, 'timezone');
   const weatherDetails = document.createElement('div');
   weatherDetails.setAttribute('class', 'card weather-details');
   weatherDetails.textContent = 'Weather details';
@@ -26,10 +27,17 @@ async function displayData(currNode, parentElement, value) {
 
   const response = await fetch(url, { mode: 'cors' });
   const data = await response.json();
+  if (value === 'dt' ||
+    value === 'timezone') {
+    currNode.textContent = `${toDateUTCTime(data[value])}`;
+  }
 
-  currNode.textContent = `${data[value]}`;
   parentElement.appendChild(currNode);
 
+}
+
+function toDateUTCTime(secs) {
+  return moment().utcOffset(secs / 60);
 }
 
 export default displayContent;
