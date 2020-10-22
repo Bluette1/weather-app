@@ -1,4 +1,4 @@
-const url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=0fc88a8e4b0bd9b97cf191933bfdcbd8';
+const url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=0fc88a8e4b0bd9b97cf191933bfdcbd8&units=metric';
 const city = 'London';
 class NavBar {
   static displayNavbar = (rootElement) => {
@@ -65,17 +65,17 @@ class NavBar {
     rootElement.append(navBar);
   }
 }
-async function displayData(displayCity, navNode) {
+async function displayData(displayCity) {
 
   const response = await fetch(url, { mode: 'cors' });
   const data = await response.json();
 
-  const displayWeather = `${city}, ${data['sys']['country']}, ${data['main']['temp']} °F`;
+  const displayWeather = `${city}, ${data['sys']['country']}, ${data['main']['temp']} °C`;
 
   const displayWeatherInfo = document.createTextNode(displayWeather);
 
   const weatherIcon = document.createElement('img');
-  weatherIcon.src = 'http://openweathermap.org/img/wn/10d.png';
+  weatherIcon.src = `http://openweathermap.org/img/wn/${data['weather'][0]['icon']}.png`;
   displayCity.append(displayWeatherInfo, weatherIcon);
 
 }
