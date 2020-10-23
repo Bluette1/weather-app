@@ -1,11 +1,8 @@
-const url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=0fc88a8e4b0bd9b97cf191933bfdcbd8&units=metric';
-const city = 'London';
-
-async function displayData(displayCity) {
+async function displayData(displayCity, url) {
   const response = await fetch(url, { mode: 'cors' });
   const data = await response.json();
 
-  const displayWeather = `${city}, ${data.sys.country}, ${data.main.temp} °C`;
+  const displayWeather = `${data.name}, ${data.sys.country}, ${data.main.temp} °C`;
 
   const displayWeatherInfo = document.createTextNode(displayWeather);
 
@@ -15,7 +12,7 @@ async function displayData(displayCity) {
 }
 
 class NavBar {
-  static displayNavbar = (rootElement) => {
+  static displayNavbar = (rootElement, url) => {
     const logoImg = document.createElement('i');
     logoImg.setAttribute('class', 'fa fa-sun-o fa-lg pr-1 logo-img');
     logoImg.setAttribute('aria-hidden', 'true');
@@ -52,6 +49,7 @@ class NavBar {
     searchBtn.type = 'submit';
     searchBtn.appendChild(searchIcon);
     searchForm.appendChild(searchBtn);
+    searchBtn.setAttribute('id', 'search-btn');
 
     const collapseNavbar = document.createElement('div');
     collapseNavbar.setAttribute('class', 'collapse navbar-collapse d-md-flex flex-md-row justify-content-end');
@@ -69,7 +67,8 @@ class NavBar {
 
     const displayCity = document.createElement('div');
     displayCity.setAttribute('class', 'pl-3 mt-n4 mt-sm-0');
-    displayData(displayCity, navBar);
+    // displayData(displayCity, navBar);
+    displayData(displayCity, url);
 
     navBar.insertBefore(displayCity, navBar.nextSibling);
     rootElement.append(navBar);

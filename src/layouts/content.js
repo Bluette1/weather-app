@@ -1,4 +1,3 @@
-const url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=0fc88a8e4b0bd9b97cf191933bfdcbd8&units=metric';
 const moment = require('moment');
 
 const ulDetails = document.createElement('ul');
@@ -6,7 +5,7 @@ const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
 
 const secsUTCToDate = (secs, offset = '+0000') => moment.unix(secs).utcOffset(offset);
 
-async function displayData(currNode, parentElement, valueOne, valueTwo = undefined, image = true) {
+async function displayData(url, currNode, parentElement, valueOne, valueTwo = undefined, image = true) {
   const response = await fetch(url, { mode: 'cors' });
   const data = await response.json();
   if (!valueTwo) {
@@ -41,8 +40,8 @@ async function displayData(currNode, parentElement, valueOne, valueTwo = undefin
   }
 }
 
-const displayTemperature = (temp, currTemp, temperature, tempUnits, weatherDescription) => {
-  displayData(temp, currTemp, 'main', 'temp', false).then(() => {
+const displayTemperature = (url, temp, currTemp, temperature, tempUnits, weatherDescription) => {
+  displayData(url, temp, currTemp, 'main', 'temp', false).then(() => {
     temperature.append(currTemp);
 
     temp.after(tempUnits);
@@ -57,7 +56,7 @@ const displayTemperature = (temp, currTemp, temperature, tempUnits, weatherDescr
     feelsLike.append(feelsLikeText);
     feelsLike.append(feelsLikeIcon);
     const feelsLikeTemp = document.createElement('span');
-    displayData(feelsLikeTemp, feelsLike, 'main', 'feels_like', false).then(() => {
+    displayData(url, feelsLikeTemp, feelsLike, 'main', 'feels_like', false).then(() => {
       const feelsLikeDegrees = document.createElement('span');
       feelsLikeDegrees.textContent = '°';
       feelsLikeTemp.after(feelsLikeDegrees);
@@ -68,9 +67,9 @@ const displayTemperature = (temp, currTemp, temperature, tempUnits, weatherDescr
 };
 
 const displayUnitsAfterMeasurement = (
-  units, currNode, parentElement, valueOne, valueTwo = undefined,
+  url, units, currNode, parentElement, valueOne, valueTwo = undefined,
 ) => {
-  displayData(currNode, parentElement, valueOne, valueTwo, false).then(() => {
+  displayData(url, currNode, parentElement, valueOne, valueTwo, false).then(() => {
     const unitsItem = document.createElement('span');
     unitsItem.textContent = units;
 
@@ -78,7 +77,7 @@ const displayUnitsAfterMeasurement = (
   });
 };
 
-const displayMeasurement = (text, units, valueOne, valueTwo) => {
+const displayMeasurement = (url, text, units, valueOne, valueTwo) => {
   const li = document.createElement('li');
   li.className = 'list-group-item';
   const liText = document.createElement('span');
@@ -86,11 +85,11 @@ const displayMeasurement = (text, units, valueOne, valueTwo) => {
   li.append(liText);
   const itemMetrics = document.createElement('span');
 
-  displayUnitsAfterMeasurement(units, itemMetrics, li, valueOne, valueTwo, false);
+  displayUnitsAfterMeasurement(url, units, itemMetrics, li, valueOne, valueTwo, false);
   ulDetails.append(li);
 };
 
-const displayContent = (rootElement) => {
+const displayContent = (rootElement, url) => {
   const mainContent = document.createElement('div');
   mainContent.setAttribute('class', 'card centered-content py-5 col-md-6 col-12');
   const weatherDescription = document.createElement('div');
@@ -110,9 +109,9 @@ const displayContent = (rootElement) => {
   temp.setAttribute('class', 'h2 font-weight-bold');
   const tempUnits = document.createElement('span');
   tempUnits.textContent = '°C';
-  displayData(currTime, weatherDescription, 'timezone', undefined);
+  displayData(url, currTime, weatherDescription, 'timezone', undefined);
 
-  displayTemperature(temp, currTemp, temperature, tempUnits, weatherDescription);
+  displayTemperature(url, temp, currTemp, temperature, tempUnits, weatherDescription);
 
   const weatherDetails = document.createElement('div');
   weatherDetails.setAttribute('class', 'card ml-2 weather-details');
@@ -122,13 +121,13 @@ const displayContent = (rootElement) => {
   moreDetails.className = 'card-header text-uppercase p-3 font-weight-bold';
 
   ulDetails.className = 'list-group list-group-flush';
-  displayMeasurement('Wind speed: ', ' meter/sec', 'wind', 'speed');
-  displayMeasurement('Wind direction: ', '°', 'wind', 'deg');
-  displayMeasurement('Humidity: ', '%', 'main', 'humidity');
-  displayMeasurement('Pressure: ', ' hPa', 'main', 'pressure');
-  displayMeasurement('Cloudiness: ', ' %', 'clouds', 'all');
-  displayMeasurement('Sunrise: ', '', 'sys', 'sunrise');
-  displayMeasurement('Sunset: ', '', 'sys', 'sunset');
+  displayMeasurement(url, 'Wind speed: ', ' meter/sec', 'wind', 'speed');
+  displayMeasurement(url, 'Wind direction: ', '°', 'wind', 'deg');
+  displayMeasurement(url, 'Humidity: ', '%', 'main', 'humidity');
+  displayMeasurement(url, 'Pressure: ', ' hPa', 'main', 'pressure');
+  displayMeasurement(url, 'Cloudiness: ', ' %', 'clouds', 'all');
+  displayMeasurement(url, 'Sunrise: ', '', 'sys', 'sunrise');
+  displayMeasurement(url, 'Sunset: ', '', 'sys', 'sunset');
 
   mainContent.append(weatherDescription);
   weatherDetails.append(ulDetails);
