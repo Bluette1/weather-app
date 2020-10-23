@@ -5,7 +5,9 @@ const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
 
 const secsUTCToDate = (secs, offset = '+0000') => moment.unix(secs).utcOffset(offset);
 
-async function displayData(url, currNode, parentElement, valueOne, valueTwo = undefined, image = true) {
+async function displayData(
+  url, currNode, parentElement, valueOne, valueTwo = undefined, image = true,
+) {
   const response = await fetch(url, { mode: 'cors' });
   const data = await response.json();
   if (!valueTwo) {

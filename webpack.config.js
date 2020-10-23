@@ -2,14 +2,14 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
-// const dotenv = require('dotenv');
-const dotEnv = require('dotenv-webpack');
-// require('dotenv').config();
+const dotenv = require('dotenv');
+const DotEnv = require('dotenv-webpack');
+require('dotenv').config();
 
 module.exports = (env) => ({
   context: __dirname,
   entry: './src/index.js',
-  // node: { fs: "empty" },
+
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
@@ -54,10 +54,10 @@ module.exports = (env) => ({
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
-    new dotEnv({
+    new DotEnv({
       path: path.join(__dirname, '.env'),
-      systemvars: true
-    })
+      systemvars: true,
+    }),
   ],
   performance: {
     hints: false,
