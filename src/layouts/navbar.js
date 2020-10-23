@@ -34,6 +34,7 @@ class NavBar {
 
     const searchForm = document.createElement('form');
     searchForm.setAttribute('class', 'form-inline my-5 my-lg-0');
+    searchForm.setAttribute('id', 'search-form');
     const inputSearch = document.createElement('input');
     const searchIcon = document.createElement('i');
     searchIcon.setAttribute('class', 'fa fa-search search-icon');
@@ -42,14 +43,21 @@ class NavBar {
     inputSearch.setAttribute('type', 'search');
     inputSearch.setAttribute('placeholder', 'Search city...');
     inputSearch.setAttribute('aria-label', 'Search');
+    inputSearch.setAttribute('id', 'input-search');
+
+    const input = document.createElement('input');
 
     searchForm.appendChild(inputSearch);
     const searchBtn = document.createElement('button');
     searchBtn.setAttribute('class', 'btn btn-outline-success my-2 my-sm-0 search-btn');
     searchBtn.type = 'submit';
+    const search = document.createElement('button');
+    search.setAttribute('type', 'submit');
+    search.textContent = 'search';
+
     searchBtn.appendChild(searchIcon);
-    searchForm.appendChild(searchBtn);
     searchBtn.setAttribute('id', 'search-btn');
+    searchForm.appendChild(searchBtn);
 
     const collapseNavbar = document.createElement('div');
     collapseNavbar.setAttribute('class', 'collapse navbar-collapse d-md-flex flex-md-row justify-content-end');
@@ -67,7 +75,6 @@ class NavBar {
 
     const displayCity = document.createElement('div');
     displayCity.setAttribute('class', 'pl-3 mt-n4 mt-sm-0');
-    // displayData(displayCity, navBar);
     displayData(displayCity, url);
 
     navBar.insertBefore(displayCity, navBar.nextSibling);

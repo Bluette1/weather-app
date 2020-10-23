@@ -92,6 +92,7 @@ const displayMeasurement = (url, text, units, valueOne, valueTwo) => {
 };
 
 const displayContent = (rootElement, url) => {
+
   const mainContent = document.createElement('div');
   mainContent.setAttribute('class', 'card centered-content py-5 col-md-6 col-12');
   const weatherDescription = document.createElement('div');
@@ -121,13 +122,13 @@ const displayContent = (rootElement, url) => {
   moreDetails.textContent = 'More details:';
   weatherDetails.append(moreDetails);
   moreDetails.className = 'card-header text-uppercase p-3 font-weight-bold';
-
+  ulDetails.innerHTML = '';
   ulDetails.className = 'list-group list-group-flush';
-  displayMeasurement(url, 'Wind speed: ', ' meter/sec', 'wind', 'speed');
+  displayMeasurement(url, 'Wind speed: ', 'meter/sec', 'wind', 'speed');
   displayMeasurement(url, 'Wind direction: ', '°', 'wind', 'deg');
   displayMeasurement(url, 'Humidity: ', '%', 'main', 'humidity');
-  displayMeasurement(url, 'Pressure: ', ' hPa', 'main', 'pressure');
-  displayMeasurement(url, 'Cloudiness: ', ' %', 'clouds', 'all');
+  displayMeasurement(url, 'Pressure: ', 'hPa', 'main', 'pressure');
+  displayMeasurement(url, 'Cloudiness: ', '%', 'clouds', 'all');
   displayMeasurement(url, 'Sunrise: ', '', 'sys', 'sunrise');
   displayMeasurement(url, 'Sunset: ', '', 'sys', 'sunset');
 

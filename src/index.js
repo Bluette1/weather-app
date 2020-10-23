@@ -10,12 +10,27 @@ const defaultCity = 'London';
 let city = defaultCity;
 const url = 'https://api.openweathermap.org/data/2.5/weather?';
 
-const rootElement = document.querySelector('#root');
-NavBar.displayNavbar(rootElement, `${url}q=${city}&appid=${API_KEY}&units=metric`, city);
-const searchBtn = document.querySelector('#search-btn');
+const start = (city) => {
 
-displayContent(rootElement, `${url}q=${city}&appid=${API_KEY}&units=metric`);
+  const rootElement = document.querySelector('#root');
+  rootElement.innerHTML = '';
+  const urlPath = `${url}q=${city}&appid=${API_KEY}&units=metric`;
+  NavBar.displayNavbar(rootElement, urlPath);
+  displayContent(rootElement, urlPath);
+  const searchBtn = document.querySelector('#search-btn');
+  const inputSearch = document.querySelector('#input-search');
+  const searchForm = document.querySelector('#search-form');
 
-searchBtn.addEventListener('submit', () => {
+  searchBtn.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    city = inputSearch.value;
 
-});
+    searchForm.reset();
+
+    start(city);
+
+  });
+
+};
+
+start(city);
