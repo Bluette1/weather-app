@@ -5,10 +5,9 @@ import NavBar from './layouts/navbar';
 import displayContent from './layouts/content';
 
 const API_KEY = process.env.APIKEY;
-console.log('APIKEY', API_KEY);
 
 const defaultCity = 'London';
-const city = defaultCity;
+let city = defaultCity;
 const url = 'http://api.openweathermap.org/data/2.5/weather?';
 
 const rootElement = document.querySelector('#root');
