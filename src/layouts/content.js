@@ -1,5 +1,6 @@
 const url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=0fc88a8e4b0bd9b97cf191933bfdcbd8&units=metric';
 const moment = require('moment');
+const ulDetails = document.createElement('ul');
 
 const displayContent = (rootElement) => {
   const mainContent = document.createElement('div');
@@ -23,17 +24,30 @@ const displayContent = (rootElement) => {
   tempUnits.textContent = '°C';
   displayData(currTime, weatherDescription, 'timezone', undefined);
 
-  appendUnitsAfterTemp(temp, currTemp, temperature, tempUnits, weatherDescription);
+  displayTemperature(temp, currTemp, temperature, tempUnits, weatherDescription);
 
   const weatherDetails = document.createElement('div');
   weatherDetails.setAttribute('class', 'card ml-2 weather-details');
-  weatherDetails.textContent = 'More details: ';
+  const moreDetails = document.createElement('h5');
+  moreDetails.textContent = 'More details:';
+  weatherDetails.append(moreDetails);
+  moreDetails.className = 'card-header text-uppercase p-3 font-weight-bold';
+
+  ulDetails.className = 'list-group list-group-flush';
+  displayMeasurement('Wind speed: ', ' meter/sec', 'wind', 'speed');
+  displayMeasurement('Wind direction: ', '°', 'wind', 'deg');
+  displayMeasurement('Humidity: ', '%', 'main', 'humidity');
+  displayMeasurement('Pressure: ', ' hPa', 'main', 'pressure');
+  displayMeasurement('Cloudiness: ', ' %', 'clouds', 'all');
+  displayMeasurement('Sunrise: ', '', 'sys', 'sunrise');
+  displayMeasurement('Sunset: ', '', 'sys', 'sunset');
 
   mainContent.append(weatherDescription);
+  weatherDetails.append(ulDetails);
   mainContent.append(weatherDetails);
   rootElement.append(mainContent);
-
 }
+
 async function displayData(currNode, parentElement, valueOne, valueTwo = undefined, image = true) {
 
   const response = await fetch(url, { mode: 'cors' });
@@ -43,7 +57,12 @@ async function displayData(currNode, parentElement, valueOne, valueTwo = undefin
       currNode.textContent = `${toDateUTCTime(data[valueOne])}`;
     }
   } else {
+
     currNode.textContent = `${data[valueOne][valueTwo]}`;
+    if (valueTwo === 'sunrise' || valueTwo === 'sunset') {
+      const offset = toDateUTCTime(data['timezone']).utcOffset();
+      currNode.textContent = `${secsUTCToDate(data[valueOne][valueTwo], offset)}`;
+    }
   }
 
   const weatherDescripn = document.createElement('div');
@@ -71,7 +90,11 @@ const toDateUTCTime = (secs) => {
   return moment().utcOffset(secs / 60);
 }
 
-const appendUnitsAfterTemp = (temp, currTemp, temperature, tempUnits, weatherDescription) => {
+const secsUTCToDate = (secs, offset = '+0000') => {
+  return moment.unix(secs).utcOffset(offset);
+}
+
+const displayTemperature = (temp, currTemp, temperature, tempUnits, weatherDescription) => {
 
   displayData(temp, currTemp, 'main', 'temp', false).then(function() {
     temperature.append(currTemp);
@@ -84,7 +107,7 @@ const appendUnitsAfterTemp = (temp, currTemp, temperature, tempUnits, weatherDes
     const feelsLikeText = document.createElement('span');
     feelsLikeText.textContent = 'RealFeel';
     const feelsLikeIcon = document.createElement('i');
-    feelsLikeIcon.className = 'fa fa-registered pr-1';
+    feelsLikeIcon.className = 'fa fa-registered pr-1 registered-icon';
     feelsLike.append(feelsLikeText);
     feelsLike.append(feelsLikeIcon);
     const feelsLikeTemp = document.createElement('span');
@@ -96,6 +119,27 @@ const appendUnitsAfterTemp = (temp, currTemp, temperature, tempUnits, weatherDes
       weatherDescription.append(temperature);
     });
   });
+};
+
+const displayUnitsAfterMeasurement = (units, currNode, parentElement, valueOne, valueTwo = undefined) => {
+  displayData(currNode, parentElement, valueOne, valueTwo, false).then(function() {
+    const unitsItem = document.createElement('span');
+    unitsItem.textContent = units;
+
+    currNode.after(unitsItem);
+  });
+};
+
+const displayMeasurement = (text, units, valueOne, valueTwo) => {
+  const li = document.createElement('li');
+  li.className = 'list-group-item';
+  const liText = document.createElement('span');
+  liText.textContent = text;
+  li.append(liText);
+  const itemMetrics = document.createElement('span');
+
+  displayUnitsAfterMeasurement(units, itemMetrics, li, valueOne, valueTwo, false);
+  ulDetails.append(li);
 };
 
 export default displayContent;
