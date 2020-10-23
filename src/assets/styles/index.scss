@@ -1,104 +1,107 @@
-  @import url(https://fonts.googleapis.com/css2?family=Roboto+Condensed);
-  html {
-    box-sizing: border-box;
-  }
-  
-  *,
-  *::before,
-  *::after {
-    box-sizing: inherit;
-  }
-  
-  * {
-    border: 0 none;
-    list-style: none outside none;
-    margin: 0;
-    outline: 0 none;
-    padding: 0;
-  }
-  
-  body {
-    padding: 0;
-    margin: 0 auto;
-    height: 100%;
-    width: 100%;
-    font-size: 16px;
-    line-height: 20px;
-    color: #333;
-    overflow-x: hidden;
-    font-family: Roboto Condensed, Solis, Arial, Helvetica, sans-serif;
-    background-color: rgb(227, 242, 253);
-    position: relative;
-  }
-  
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  a:hover {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .title {
-    font-size: 2.2rem;
-    font-weight: 500;
-    font-style: italic;
-    margin-top: 10px;
-    text-align: center;
-    line-height: 2rem;
-  }
-  
-  .nav-menu {
-    height: 65px;
-    color: rgb(255, 255, 255);
-  }
-  
-  .navbar-brand {
-    font-weight: bold;
-  }
-  
-  .logo-img,
-  .search-icon,
-  .temp {
-    color: rgb(255, 94, 0);
-  }
-  
+@import url(https://fonts.googleapis.com/css2?family=Roboto+Condensed);
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+* {
+  border: 0 none;
+  list-style: none outside none;
+  margin: 0;
+  outline: 0 none;
+  padding: 0;
+}
+
+body {
+  padding: 0;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  line-height: 20px;
+  color: #333;
+  overflow-x: hidden;
+  font-family: Roboto Condensed, Solis, Arial, Helvetica, sans-serif;
+  background-color: rgb(227, 242, 253);
+  position: relative;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 500;
+  font-style: italic;
+  margin-top: 10px;
+  text-align: center;
+  line-height: 2rem;
+}
+
+.nav-menu {
+  height: 65px;
+  color: rgb(255, 255, 255);
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.logo-img,
+.search-icon,
+.temp {
+  color: rgb(255, 94, 0);
+}
+
+.centered-content {
+  margin: 16rem auto;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.feels-like {
+  margin: 1.8rem auto;
+}
+
+.weather-description {
+  grid-column: span 1;
+}
+
+.weather-icon-description {
+  height: 150px;
+  width: 150px;
+}
+
+.registered-icon {
+  color: rgb(40, 167, 69);
+  padding-left: 0.08rem;
+}
+
+@media only screen and (min-width: 768px) {
   .centered-content {
-    margin: 16rem auto;
+    margin: 10rem auto;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .feels-like {
-    margin: 1.8rem auto;
-  }
-  
+
   .weather-description {
-    grid-column: span 1;
+    grid-column: 1/2;
   }
-  
-  .weather-icon-description {
-    height: 150px;
-    width: 150px;
+
+  .weather-details {
+    grid-column: 2/3;
   }
-  
-  .registered-icon {
-    color: rgb(40, 167, 69);
-    padding-left: 0.08rem;
-  }
-  
-  @media only screen and (min-width: 768px) {
-    .centered-content {
-      margin: 10rem auto;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .weather-description {
-      grid-column: 1/2;
-    }
-    .weather-details {
-      grid-column: 2/3;
-    }
-  }
+}
