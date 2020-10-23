@@ -27,6 +27,7 @@
     color: #333;
     overflow-x: hidden;
     font-family: Roboto Condensed, Solis, Arial, Helvetica, sans-serif;
+    background-color: rgb(227, 242, 253);
     position: relative;
   }
   
@@ -59,24 +60,28 @@
   }
   
   .logo-img,
-  .search-icon {
+  .search-icon,
+  .temp {
     color: rgb(255, 94, 0);
   }
   
   .centered-content {
-    margin: 10rem auto;
+    margin: 16rem auto;
     display: grid;
     grid-template-columns: 1fr;
   }
   
+  .feels-like {
+    margin: 1.8rem auto;
+  }
+  
   .weather-description {
     grid-column: span 1;
-    background-color: rgb(199, 195, 195);
   }
   
   .weather-icon-description {
-    height: 100px;
-    width: 100px;
+    height: 150px;
+    width: 150px;
   }
   
   @media only screen and (min-width: 768px) {

@@ -48,7 +48,7 @@ class NavBar {
     collapseNavbar.setAttribute('id', 'navbarSupportedContent');
 
     const navBar = document.createElement('nav');
-    navBar.setAttribute('class', 'navbar fixed-top navbar-expand-md nav-menu navbar-dark bg-dark');
+    navBar.setAttribute('class', 'navbar fixed-top navbar-expand-md nav-menu navbar-dark bg-primary');
     leftNavbar.appendChild(logoImg);
     leftNavbar.appendChild(title);
 
