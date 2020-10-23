@@ -1,6 +1,94 @@
 const url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=0fc88a8e4b0bd9b97cf191933bfdcbd8&units=metric';
 const moment = require('moment');
+
 const ulDetails = document.createElement('ul');
+const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
+
+const secsUTCToDate = (secs, offset = '+0000') => moment.unix(secs).utcOffset(offset);
+
+async function displayData(currNode, parentElement, valueOne, valueTwo = undefined, image = true) {
+  const response = await fetch(url, { mode: 'cors' });
+  const data = await response.json();
+  if (!valueTwo) {
+    if (valueOne === 'timezone') {
+      currNode.textContent = `${toDateUTCTime(data[valueOne])}`;
+    }
+  } else {
+    currNode.textContent = `${data[valueOne][valueTwo]}`;
+    if (valueTwo === 'sunrise' || valueTwo === 'sunset') {
+      const offset = toDateUTCTime(data.timezone).utcOffset();
+      currNode.textContent = `${secsUTCToDate(data[valueOne][valueTwo], offset)}`;
+    }
+  }
+
+  const weatherDescripn = document.createElement('div');
+  weatherDescripn.setAttribute('class', 'p-2 d-sm-flex justify-content-sm-between');
+
+  parentElement.append(currNode);
+  if (image === true) {
+    const weatherIcon = document.createElement('img');
+    weatherIcon.className = 'weather-icon-description';
+    weatherIcon.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+    const description = document.createElement('h5');
+    description.textContent = `${data.weather[0].description}`;
+    const mainDescription = document.createElement('h5');
+    mainDescription.className = 'font-weight-bold text-uppercase pr-1';
+    mainDescription.textContent = `${data.weather[0].main}:`;
+    weatherDescripn.appendChild(weatherIcon);
+    weatherDescripn.appendChild(mainDescription);
+    weatherDescripn.appendChild(description);
+    parentElement.append(weatherDescripn);
+  }
+}
+
+const displayTemperature = (temp, currTemp, temperature, tempUnits, weatherDescription) => {
+  displayData(temp, currTemp, 'main', 'temp', false).then(() => {
+    temperature.append(currTemp);
+
+    temp.after(tempUnits);
+  }).then(() => {
+    const feelsLike = document.createElement('div');
+    feelsLike.setAttribute('class', 'feels-like');
+
+    const feelsLikeText = document.createElement('span');
+    feelsLikeText.textContent = 'RealFeel';
+    const feelsLikeIcon = document.createElement('i');
+    feelsLikeIcon.className = 'fa fa-registered pr-1 registered-icon';
+    feelsLike.append(feelsLikeText);
+    feelsLike.append(feelsLikeIcon);
+    const feelsLikeTemp = document.createElement('span');
+    displayData(feelsLikeTemp, feelsLike, 'main', 'feels_like', false).then(() => {
+      const feelsLikeDegrees = document.createElement('span');
+      feelsLikeDegrees.textContent = '°';
+      feelsLikeTemp.after(feelsLikeDegrees);
+      temperature.append(feelsLike);
+      weatherDescription.append(temperature);
+    });
+  });
+};
+
+const displayUnitsAfterMeasurement = (
+  units, currNode, parentElement, valueOne, valueTwo = undefined,
+) => {
+  displayData(currNode, parentElement, valueOne, valueTwo, false).then(() => {
+    const unitsItem = document.createElement('span');
+    unitsItem.textContent = units;
+
+    currNode.after(unitsItem);
+  });
+};
+
+const displayMeasurement = (text, units, valueOne, valueTwo) => {
+  const li = document.createElement('li');
+  li.className = 'list-group-item';
+  const liText = document.createElement('span');
+  liText.textContent = text;
+  li.append(liText);
+  const itemMetrics = document.createElement('span');
+
+  displayUnitsAfterMeasurement(units, itemMetrics, li, valueOne, valueTwo, false);
+  ulDetails.append(li);
+};
 
 const displayContent = (rootElement) => {
   const mainContent = document.createElement('div');
@@ -17,9 +105,9 @@ const displayContent = (rootElement) => {
   temperature.setAttribute('class', 'd-sm-flex justify-content-sm-between');
 
   const currTemp = document.createElement('div');
-  currTemp.setAttribute('class', 'p-3 temp')
+  currTemp.setAttribute('class', 'p-3 temp');
   const temp = document.createElement('span');
-  temp.setAttribute('class', 'h2 font-weight-bold')
+  temp.setAttribute('class', 'h2 font-weight-bold');
   const tempUnits = document.createElement('span');
   tempUnits.textContent = '°C';
   displayData(currTime, weatherDescription, 'timezone', undefined);
@@ -46,100 +134,6 @@ const displayContent = (rootElement) => {
   weatherDetails.append(ulDetails);
   mainContent.append(weatherDetails);
   rootElement.append(mainContent);
-}
-
-async function displayData(currNode, parentElement, valueOne, valueTwo = undefined, image = true) {
-
-  const response = await fetch(url, { mode: 'cors' });
-  const data = await response.json();
-  if (!valueTwo) {
-    if (valueOne === 'timezone') {
-      currNode.textContent = `${toDateUTCTime(data[valueOne])}`;
-    }
-  } else {
-
-    currNode.textContent = `${data[valueOne][valueTwo]}`;
-    if (valueTwo === 'sunrise' || valueTwo === 'sunset') {
-      const offset = toDateUTCTime(data['timezone']).utcOffset();
-      currNode.textContent = `${secsUTCToDate(data[valueOne][valueTwo], offset)}`;
-    }
-  }
-
-  const weatherDescripn = document.createElement('div');
-  weatherDescripn.setAttribute('class', 'p-2 d-sm-flex justify-content-sm-between')
-
-  parentElement.append(currNode);
-  if (image === true) {
-    const weatherIcon = document.createElement('img');
-    weatherIcon.className = 'weather-icon-description';
-    weatherIcon.src = `http://openweathermap.org/img/wn/${data['weather'][0]['icon']}.png`;
-    const description = document.createElement('h5');
-    description.textContent = `${data['weather'][0]['description']}`;
-    const mainDescription = document.createElement('h5');
-    mainDescription.className = 'font-weight-bold text-uppercase pr-1';
-    mainDescription.textContent = `${data['weather'][0]['main']}:`;
-    weatherDescripn.appendChild(weatherIcon);
-    weatherDescripn.appendChild(mainDescription);
-    weatherDescripn.appendChild(description);
-    parentElement.append(weatherDescripn);
-  }
-
-}
-
-const toDateUTCTime = (secs) => {
-  return moment().utcOffset(secs / 60);
-}
-
-const secsUTCToDate = (secs, offset = '+0000') => {
-  return moment.unix(secs).utcOffset(offset);
-}
-
-const displayTemperature = (temp, currTemp, temperature, tempUnits, weatherDescription) => {
-
-  displayData(temp, currTemp, 'main', 'temp', false).then(function() {
-    temperature.append(currTemp);
-
-    temp.after(tempUnits);
-  }).then(function() {
-    const feelsLike = document.createElement('div');
-    feelsLike.setAttribute('class', 'feels-like');
-
-    const feelsLikeText = document.createElement('span');
-    feelsLikeText.textContent = 'RealFeel';
-    const feelsLikeIcon = document.createElement('i');
-    feelsLikeIcon.className = 'fa fa-registered pr-1 registered-icon';
-    feelsLike.append(feelsLikeText);
-    feelsLike.append(feelsLikeIcon);
-    const feelsLikeTemp = document.createElement('span');
-    displayData(feelsLikeTemp, feelsLike, 'main', 'feels_like', false).then(function() {
-      const feelsLikeDegrees = document.createElement('span');
-      feelsLikeDegrees.textContent = '°';
-      feelsLikeTemp.after(feelsLikeDegrees);
-      temperature.append(feelsLike);
-      weatherDescription.append(temperature);
-    });
-  });
-};
-
-const displayUnitsAfterMeasurement = (units, currNode, parentElement, valueOne, valueTwo = undefined) => {
-  displayData(currNode, parentElement, valueOne, valueTwo, false).then(function() {
-    const unitsItem = document.createElement('span');
-    unitsItem.textContent = units;
-
-    currNode.after(unitsItem);
-  });
-};
-
-const displayMeasurement = (text, units, valueOne, valueTwo) => {
-  const li = document.createElement('li');
-  li.className = 'list-group-item';
-  const liText = document.createElement('span');
-  liText.textContent = text;
-  li.append(liText);
-  const itemMetrics = document.createElement('span');
-
-  displayUnitsAfterMeasurement(units, itemMetrics, li, valueOne, valueTwo, false);
-  ulDetails.append(li);
 };
 
 export default displayContent;

@@ -1,17 +1,28 @@
 const url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=0fc88a8e4b0bd9b97cf191933bfdcbd8&units=metric';
 const city = 'London';
+
+async function displayData(displayCity) {
+  const response = await fetch(url, { mode: 'cors' });
+  const data = await response.json();
+
+  const displayWeather = `${city}, ${data.sys.country}, ${data.main.temp} °C`;
+
+  const displayWeatherInfo = document.createTextNode(displayWeather);
+
+  const weatherIcon = document.createElement('img');
+  weatherIcon.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+  displayCity.append(displayWeatherInfo, weatherIcon);
+}
+
 class NavBar {
   static displayNavbar = (rootElement) => {
     const logoImg = document.createElement('i');
-    logoImg.setAttribute('class', 'fa fa-sun-o fa-lg pr-1 logo-img')
+    logoImg.setAttribute('class', 'fa fa-sun-o fa-lg pr-1 logo-img');
     logoImg.setAttribute('aria-hidden', 'true');
     const title = document.createElement('a');
     title.href = '/';
     title.textContent = 'AccurateWeather';
     title.setAttribute('class', 'navbar-brand');
-    const displayWeather = '';
-
-    const displayWeatherInfo = document.createElement('span');
 
     const leftNavbar = document.createElement('div');
     const toggleBtn = document.createElement('button');
@@ -42,7 +53,6 @@ class NavBar {
     searchBtn.appendChild(searchIcon);
     searchForm.appendChild(searchBtn);
 
-
     const collapseNavbar = document.createElement('div');
     collapseNavbar.setAttribute('class', 'collapse navbar-collapse d-md-flex flex-md-row justify-content-end');
     collapseNavbar.setAttribute('id', 'navbarSupportedContent');
@@ -58,26 +68,12 @@ class NavBar {
     navBar.appendChild(collapseNavbar);
 
     const displayCity = document.createElement('div');
-    displayCity.setAttribute('class', 'pl-3 mt-n4 mt-sm-0')
+    displayCity.setAttribute('class', 'pl-3 mt-n4 mt-sm-0');
     displayData(displayCity, navBar);
 
     navBar.insertBefore(displayCity, navBar.nextSibling);
     rootElement.append(navBar);
   }
-}
-async function displayData(displayCity) {
-
-  const response = await fetch(url, { mode: 'cors' });
-  const data = await response.json();
-
-  const displayWeather = `${city}, ${data['sys']['country']}, ${data['main']['temp']} °C`;
-
-  const displayWeatherInfo = document.createTextNode(displayWeather);
-
-  const weatherIcon = document.createElement('img');
-  weatherIcon.src = `http://openweathermap.org/img/wn/${data['weather'][0]['icon']}.png`;
-  displayCity.append(displayWeatherInfo, weatherIcon);
-
 }
 
 export default NavBar;
