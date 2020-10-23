@@ -2,7 +2,6 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
-const dotenv = require('dotenv');
 const DotEnv = require('dotenv-webpack');
 require('dotenv').config();
 
@@ -24,23 +23,23 @@ module.exports = (env) => ({
 
   module: {
     rules: [{
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader'],
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(scss)$/,
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-      {
-        test: /\.(png|jpg|svg|gif|jpeg)?$/,
-        use: 'file-loader',
-      },
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: ['babel-loader'],
+    },
+    {
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader'],
+    },
+    {
+      test: /\.(scss)$/,
+      exclude: /node_modules/,
+      use: ['style-loader', 'css-loader', 'sass-loader'],
+    },
+    {
+      test: /\.(png|jpg|svg|gif|jpeg)?$/,
+      use: 'file-loader',
+    },
     ],
   },
   plugins: [

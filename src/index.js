@@ -7,11 +7,10 @@ import displayContent from './layouts/content';
 const API_KEY = process.env.APIKEY;
 
 const defaultCity = 'London';
-let city = defaultCity;
+const city = defaultCity;
 const url = 'https://api.openweathermap.org/data/2.5/weather?';
 
 const start = (city) => {
-
   const rootElement = document.querySelector('#root');
   rootElement.innerHTML = '';
   const urlPath = `${url}q=${city}&appid=${API_KEY}&units=metric`;
@@ -28,9 +27,7 @@ const start = (city) => {
     searchForm.reset();
 
     start(city);
-
   });
-
 };
 
 start(city);

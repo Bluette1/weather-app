@@ -92,7 +92,6 @@ const displayMeasurement = (url, text, units, valueOne, valueTwo) => {
 };
 
 const displayContent = (rootElement, url) => {
-
   const mainContent = document.createElement('div');
   mainContent.setAttribute('class', 'card centered-content py-5 col-md-6 col-12');
   const weatherDescription = document.createElement('div');

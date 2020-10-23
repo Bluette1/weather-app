@@ -45,8 +45,6 @@ class NavBar {
     inputSearch.setAttribute('aria-label', 'Search');
     inputSearch.setAttribute('id', 'input-search');
 
-    const input = document.createElement('input');
-
     searchForm.appendChild(inputSearch);
     const searchBtn = document.createElement('button');
     searchBtn.setAttribute('class', 'btn btn-outline-success my-2 my-sm-0 search-btn');
