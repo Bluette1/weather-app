@@ -133,7 +133,7 @@ const displayContent = (rootElement, url, units) => {
   const mainContent = document.createElement('div');
   mainContent.setAttribute('class', 'card centered-content py-5 col-md-6 col-12');
   const weatherDescription = document.createElement('div');
-  weatherDescription.setAttribute('class', 'card pr-3 mr-2 weather-description');
+  weatherDescription.setAttribute('class', 'card pr-3 mr-md-2 weather-description');
   const currWeather = document.createElement('h5');
   currWeather.textContent = 'Current Weather';
   currWeather.className = 'text-uppercase p-3 font-weight-bold';
@@ -154,7 +154,7 @@ const displayContent = (rootElement, url, units) => {
   displayTemperature(url, temp, currTemp, temperature, tempUnits, weatherDescription);
 
   const weatherDetails = document.createElement('div');
-  weatherDetails.setAttribute('class', 'card ml-2 weather-details');
+  weatherDetails.setAttribute('class', 'card ml-md-2 mt-2 mt-md-0 weather-details');
   const moreDetails = document.createElement('h5');
   moreDetails.textContent = 'More details:';
   weatherDetails.append(moreDetails);
