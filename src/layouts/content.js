@@ -99,7 +99,7 @@ const displayContent = (rootElement, url, units) => {
   tempToggle.setAttribute('class', 'btn-group btn-group-toggle mt-n5 temp-toggle');
   tempToggle.setAttribute('data-toggle', 'buttons');
   const celsiusLabel = document.createElement('label');
-  celsiusLabel.setAttribute('class', 'btn btn-primary active');
+  celsiusLabel.setAttribute('class', 'btn btn-primary');
   celsiusLabel.textContent = '°C';
   const farenheightLabel = document.createElement('label');
   farenheightLabel.setAttribute('class', 'btn btn-primary');
@@ -115,8 +115,14 @@ const displayContent = (rootElement, url, units) => {
   radioFarenheight.setAttribute('name', 'options');
   radioFarenheight.setAttribute('autocomplete', 'off');
   radioFarenheight.setAttribute('id', 'farenheight');
+  if (units === 'metric') {
+    radioCelsius.checked = true;
+    celsiusLabel.classList.add('active');
+  } else {
+    radioFarenheight.checked = true;
+    farenheightLabel.classList.add('active');
+  }
 
-  radioCelsius.checked = true;
   celsiusLabel.append(radioCelsius);
   farenheightLabel.append(radioFarenheight);
 
