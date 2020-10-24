@@ -1,8 +1,8 @@
 async function displayData(displayCity, url, units) {
   const unitsMap = {
-    'metric': '°C',
-    'imperial': '°F',
-  }
+    metric: '°C',
+    imperial: '°F',
+  };
   const response = await fetch(url, { mode: 'cors' });
   const data = await response.json();
 

@@ -23,12 +23,12 @@ const start = (city, units = 'metric') => {
   const celsius = document.querySelector('#celsius');
   const farenheight = document.querySelector('#farenheight');
 
-  farenheight.addEventListener('click', (evt) => {
+  farenheight.addEventListener('click', () => {
     if (farenheight.checked === true) {
       start(city, 'imperial');
     }
   });
-  celsius.addEventListener('click', (evt) => {
+  celsius.addEventListener('click', () => {
     if (celsius.checked === true) {
       start(city, 'metric');
     }

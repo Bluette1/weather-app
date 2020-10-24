@@ -1,8 +1,9 @@
 const moment = require('moment');
+
 const unitsMap = {
-  'metric': '°C',
-  'imperial': '°F',
-}
+  metric: '°C',
+  imperial: '°F',
+};
 const ulDetails = document.createElement('ul');
 const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
 
