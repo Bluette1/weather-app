@@ -11,7 +11,7 @@ async function displayData(displayCity, url, units) {
   const displayWeatherInfo = document.createTextNode(displayWeather);
 
   const weatherIcon = document.createElement('img');
-  weatherIcon.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+  weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
   displayCity.append(displayWeatherInfo, weatherIcon);
 }
 
