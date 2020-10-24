@@ -92,6 +92,34 @@ const displayMeasurement = (url, text, units, valueOne, valueTwo) => {
 };
 
 const displayContent = (rootElement, url) => {
+  const tempToggle = document.createElement('div');
+  tempToggle.setAttribute('class', 'btn-group btn-group-toggle mt-n5 temp-toggle');
+  tempToggle.setAttribute('data-toggle', 'buttons');
+  const celsiusLabel = document.createElement('label');
+  celsiusLabel.setAttribute('class', 'btn btn-primary active');
+  celsiusLabel.textContent = '°C';
+  const farenheightLabel = document.createElement('label');
+  farenheightLabel.setAttribute('class', 'btn btn-primary');
+  farenheightLabel.textContent = '°F';
+  const radioCelsius = document.createElement('input');
+  radioCelsius.setAttribute('type', 'radio');
+  radioCelsius.setAttribute('name', 'options');
+  radioCelsius.setAttribute('autocomplete', 'off');
+  radioCelsius.setAttribute('id', 'celsius');
+
+  const radioFarenheight = document.createElement('input');
+  radioFarenheight.setAttribute('type', 'radio');
+  radioFarenheight.setAttribute('name', 'options');
+  radioFarenheight.setAttribute('autocomplete', 'off');
+  radioFarenheight.setAttribute('id', 'farenheight');
+
+  radioCelsius.checked = true;
+  celsiusLabel.append(radioCelsius);
+  farenheightLabel.append(radioFarenheight);
+
+  tempToggle.append(celsiusLabel, farenheightLabel);
+  rootElement.append(tempToggle);
+
   const mainContent = document.createElement('div');
   mainContent.setAttribute('class', 'card centered-content py-5 col-md-6 col-12');
   const weatherDescription = document.createElement('div');
@@ -134,6 +162,7 @@ const displayContent = (rootElement, url) => {
   mainContent.append(weatherDescription);
   weatherDetails.append(ulDetails);
   mainContent.append(weatherDetails);
+
   rootElement.append(mainContent);
 };
 

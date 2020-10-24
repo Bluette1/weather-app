@@ -10,23 +10,28 @@ const defaultCity = 'London';
 const city = defaultCity;
 const url = 'https://api.openweathermap.org/data/2.5/weather?';
 
-const start = (city) => {
+const start = (city, units = 'metric') => {
   const rootElement = document.querySelector('#root');
   rootElement.innerHTML = '';
-  const urlPath = `${url}q=${city}&appid=${API_KEY}&units=metric`;
+
+  const urlPath = `${url}q=${city}&appid=${API_KEY}&units=${units}`;
   NavBar.displayNavbar(rootElement, urlPath);
   displayContent(rootElement, urlPath);
   const searchBtn = document.querySelector('#search-btn');
   const inputSearch = document.querySelector('#input-search');
   const searchForm = document.querySelector('#search-form');
-
+  const farenheight = document.querySelector('#farenheight');
+  if (farenheight.checked === true) {
+    units = 'imperial';
+    start(city, units);
+  }
   searchBtn.addEventListener('click', (evt) => {
     evt.preventDefault();
     city = inputSearch.value;
 
     searchForm.reset();
 
-    start(city);
+    start(city, units);
   });
 };
 
