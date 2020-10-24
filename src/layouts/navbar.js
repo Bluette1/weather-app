@@ -1,8 +1,12 @@
-async function displayData(displayCity, url) {
+async function displayData(displayCity, url, units) {
+  const unitsMap = {
+    'metric': '°C',
+    'imperial': '°F',
+  }
   const response = await fetch(url, { mode: 'cors' });
   const data = await response.json();
 
-  const displayWeather = `${data.name}, ${data.sys.country}, ${data.main.temp} °C`;
+  const displayWeather = `${data.name}, ${data.sys.country}, ${data.main.temp}${unitsMap[units]}`;
 
   const displayWeatherInfo = document.createTextNode(displayWeather);
 
@@ -12,7 +16,7 @@ async function displayData(displayCity, url) {
 }
 
 class NavBar {
-  static displayNavbar = (rootElement, url) => {
+  static displayNavbar = (rootElement, url, units) => {
     const logoImg = document.createElement('i');
     logoImg.setAttribute('class', 'fa fa-sun-o fa-lg pr-1 logo-img');
     logoImg.setAttribute('aria-hidden', 'true');
@@ -73,7 +77,7 @@ class NavBar {
 
     const displayCity = document.createElement('div');
     displayCity.setAttribute('class', 'pl-3 mt-n4 mt-sm-0');
-    displayData(displayCity, url);
+    displayData(displayCity, url, units);
 
     navBar.insertBefore(displayCity, navBar.nextSibling);
     rootElement.append(navBar);

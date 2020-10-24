@@ -1,5 +1,8 @@
 const moment = require('moment');
-
+const unitsMap = {
+  'metric': '°C',
+  'imperial': '°F',
+}
 const ulDetails = document.createElement('ul');
 const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
 
@@ -91,7 +94,7 @@ const displayMeasurement = (url, text, units, valueOne, valueTwo) => {
   ulDetails.append(li);
 };
 
-const displayContent = (rootElement, url) => {
+const displayContent = (rootElement, url, units) => {
   const tempToggle = document.createElement('div');
   tempToggle.setAttribute('class', 'btn-group btn-group-toggle mt-n5 temp-toggle');
   tempToggle.setAttribute('data-toggle', 'buttons');
@@ -138,7 +141,7 @@ const displayContent = (rootElement, url) => {
   const temp = document.createElement('span');
   temp.setAttribute('class', 'h2 font-weight-bold');
   const tempUnits = document.createElement('span');
-  tempUnits.textContent = '°C';
+  tempUnits.textContent = unitsMap[units];
   displayData(url, currTime, weatherDescription, 'timezone', undefined);
 
   displayTemperature(url, temp, currTemp, temperature, tempUnits, weatherDescription);

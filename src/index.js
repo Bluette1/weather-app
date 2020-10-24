@@ -15,16 +15,24 @@ const start = (city, units = 'metric') => {
   rootElement.innerHTML = '';
 
   const urlPath = `${url}q=${city}&appid=${API_KEY}&units=${units}`;
-  NavBar.displayNavbar(rootElement, urlPath);
-  displayContent(rootElement, urlPath);
+  NavBar.displayNavbar(rootElement, urlPath, units);
+  displayContent(rootElement, urlPath, units);
   const searchBtn = document.querySelector('#search-btn');
   const inputSearch = document.querySelector('#input-search');
   const searchForm = document.querySelector('#search-form');
+  const celsius = document.querySelector('#celsius');
   const farenheight = document.querySelector('#farenheight');
-  if (farenheight.checked === true) {
-    units = 'imperial';
-    start(city, units);
-  }
+
+  farenheight.addEventListener('click', (evt) => {
+    if (farenheight.checked === true) {
+      start(city, 'imperial');
+    }
+  });
+  celsius.addEventListener('click', (evt) => {
+    if (celsius.checked === true) {
+      start(city, 'metric');
+    }
+  });
   searchBtn.addEventListener('click', (evt) => {
     evt.preventDefault();
     city = inputSearch.value;
