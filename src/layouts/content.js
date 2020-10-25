@@ -131,7 +131,7 @@ const displayContent = (rootElement, url, units) => {
   rootElement.append(tempToggle);
 
   const mainContent = document.createElement('div');
-  mainContent.setAttribute('class', 'card centered-content py-5 col-md-6 col-12');
+  mainContent.setAttribute('class', 'card centered-content py-5 col-md-9 col-lg-6 col-12');
   const weatherDescription = document.createElement('div');
   weatherDescription.setAttribute('class', 'card pr-3 mr-md-2 weather-description');
   const currWeather = document.createElement('h5');
