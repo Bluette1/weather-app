@@ -21,12 +21,17 @@ const start = () => {
   rootElement.innerHTML = '';
   const body = document.querySelector('body');
   const loadingContainer = document.createElement('div');
-  loadingContainer.setAttribute('class', 'd-flex justify-content-center align-items-center loading-component');
+  loadingContainer.setAttribute('class', 'd-flex justify-content-center align-items-center loading-component text-primary');
   const loadingComponent = document.createElement('div');
 
   loadingComponent.setAttribute('class', 'spinner-border');
   loadingComponent.setAttribute('role', 'status');
+  const loadText = document.createElement('strong');
+  loadText.className = 'p-2'
+
+  loadText.textContent = 'Loading...Please wait.';
   loadingContainer.append(loadingComponent);
+  loadingContainer.append(loadText);
   body.append(loadingContainer);
   const urlPath = `${url}q=${city}&appid=${API_KEY}&units=${units}`;
 
