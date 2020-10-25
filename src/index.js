@@ -11,7 +11,7 @@ const units = localStorage.getItem('units') ? JSON.parse(localStorage.getItem('u
 const windowReload = (field, value) => {
   localStorage.setItem(field, JSON.stringify(value));
   window.location.reload();
-}
+};
 
 const url = 'https://api.openweathermap.org/data/2.5/weather?';
 const rootElement = document.querySelector('#root');
@@ -27,7 +27,7 @@ const start = () => {
   loadingComponent.setAttribute('class', 'spinner-border');
   loadingComponent.setAttribute('role', 'status');
   const loadText = document.createElement('strong');
-  loadText.className = 'p-2'
+  loadText.className = 'p-2';
 
   loadText.textContent = 'Loading...Please wait.';
   loadingContainer.append(loadingComponent);
@@ -58,7 +58,6 @@ const start = () => {
   });
   celsius.addEventListener('click', () => {
     if (celsius.checked === true) {
-
       windowReload('units', 'metric');
     }
   });
