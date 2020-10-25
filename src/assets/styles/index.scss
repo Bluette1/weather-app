@@ -1,5 +1,4 @@
 @import url(https://fonts.googleapis.com/css2?family=Roboto+Condensed);
-
 html {
   box-sizing: border-box;
 }
@@ -94,17 +93,23 @@ a:hover {
   margin-bottom: -300px;
 }
 
+.hidden {
+  display: none;
+}
+
+.loading-component {
+  margin-top: 350px;
+}
+
 @media only screen and (min-width: 768px) {
   .centered-content {
     margin: 10rem auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
-
   .weather-description {
     grid-column: 1/2;
   }
-
   .weather-details {
     grid-column: 2/3;
   }
