@@ -40,7 +40,7 @@ const start = () => {
 
   window.addEventListener('load', () => {
     setTimeout(() => {
-      loadingComponent.classList.add('hidden');
+      loadingContainer.remove();
       rootElement.classList.remove('hidden');
     }, 3000);
   });
