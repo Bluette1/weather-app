@@ -5,10 +5,13 @@ import NavBar from './layouts/navbar';
 import displayContent from './layouts/content';
 
 const API_KEY = process.env.APIKEY;
-
 const city = localStorage.getItem('city') ? JSON.parse(localStorage.getItem('city')) : 'London';
-
 const units = localStorage.getItem('units') ? JSON.parse(localStorage.getItem('units')) : 'metric';
+
+const windowReload = (field, value) => {
+  localStorage.setItem(field, JSON.stringify(value));
+  window.location.reload();
+}
 
 const url = 'https://api.openweathermap.org/data/2.5/weather?';
 const rootElement = document.querySelector('#root');
@@ -45,22 +48,19 @@ const start = () => {
 
   farenheight.addEventListener('click', () => {
     if (farenheight.checked === true) {
-      localStorage.setItem('units', JSON.stringify('imperial'));
-      window.location.reload();
+      windowReload('units', 'imperial');
     }
   });
   celsius.addEventListener('click', () => {
     if (celsius.checked === true) {
-      localStorage.setItem('units', JSON.stringify('metric'));
-      window.location.reload();
+
+      windowReload('units', 'metric');
     }
   });
   searchBtn.addEventListener('click', (evt) => {
     evt.preventDefault();
-    localStorage.setItem('city', JSON.stringify(inputSearch.value));
-
+    windowReload('city', inputSearch.value);
     searchForm.reset();
-    window.location.reload();
   });
 };
 
