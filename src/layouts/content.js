@@ -6,18 +6,9 @@ const unitsMap = {
 };
 const ulDetails = document.createElement('ul');
 const toDateUTCTime = (secs) => {
-
-  if (moment().utcOffset() == -0) {
-    // for heroku server
-    secs += 28800000
-  }
   return moment().utcOffset(secs / 60);
 };
 const secsUTCToDate = (secs, offset = '+0000') => {
-  if (moment().utcOffset() == -0) {
-    // for heroku server
-    secs += 28800000
-  }
   return moment.unix(secs).utcOffset(offset);
 }
 async function displayData(
