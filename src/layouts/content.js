@@ -15,13 +15,12 @@ async function displayData(
   const response = await fetch(url, { mode: 'cors' });
   const data = await response.json();
   if (!valueTwo) {
-    if (valueOne === 'timezone' && moment !== undefined) {
-
+    if (valueOne === 'timezone') {
       currNode.textContent = `${toDateUTCTime(data[valueOne])}`;
     }
   } else {
     currNode.textContent = `${data[valueOne][valueTwo]}`;
-    if ((valueTwo === 'sunrise' || valueTwo === 'sunset') && moment !== undefined) {
+    if (valueTwo === 'sunrise' || valueTwo === 'sunset') {
       const offset = toDateUTCTime(data.timezone).utcOffset();
       currNode.textContent = `${secsUTCToDate(data[valueOne][valueTwo], offset)}`;
     }
