@@ -6,7 +6,6 @@ import displayContent from './layouts/content';
 
 const API_KEY = process.env.APIKEY;
 
-const defaultCity = 'London';
 const city = localStorage.getItem('city') ? JSON.parse(localStorage.getItem('city')) : 'London';
 
 const units = localStorage.getItem('units') ? JSON.parse(localStorage.getItem('units')) : 'metric';
@@ -15,13 +14,11 @@ const url = 'https://api.openweathermap.org/data/2.5/weather?';
 const rootElement = document.querySelector('#root');
 rootElement.classList.add('hidden');
 
-
 const start = () => {
-
   rootElement.innerHTML = '';
   const body = document.querySelector('body');
   const loadingContainer = document.createElement('div');
-  loadingContainer.setAttribute('class', 'd-flex justify-content-center align-items-center loading-component')
+  loadingContainer.setAttribute('class', 'd-flex justify-content-center align-items-center loading-component');
   const loadingComponent = document.createElement('div');
 
   loadingComponent.setAttribute('class', 'spinner-border');
@@ -33,9 +30,7 @@ const start = () => {
   NavBar.displayNavbar(rootElement, urlPath, units);
   displayContent(rootElement, urlPath, units);
 
-
-  window.addEventListener('load', function() {
-
+  window.addEventListener('load', () => {
     setTimeout(() => {
       loadingComponent.classList.add('hidden');
       rootElement.classList.remove('hidden');
@@ -55,14 +50,12 @@ const start = () => {
     }
   });
   celsius.addEventListener('click', () => {
-
     if (celsius.checked === true) {
       localStorage.setItem('units', JSON.stringify('metric'));
       window.location.reload();
     }
   });
   searchBtn.addEventListener('click', (evt) => {
-
     evt.preventDefault();
     localStorage.setItem('city', JSON.stringify(inputSearch.value));
 
