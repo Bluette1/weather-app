@@ -5,9 +5,9 @@ const unitsMap = {
   imperial: '°F',
 };
 const ulDetails = document.createElement('ul');
-const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
+const toDateUTCTime = (secs) => moment().utc(secs).utcOffset(secs / 60);
 
-const secsUTCToDate = (secs, offset = '+0000') => moment.unix(secs).utcOffset(offset);
+const secsUTCToDate = (secs, offset = '+0000') => moment.unix(secs);
 
 async function displayData(
   url, currNode, parentElement, valueOne, valueTwo = undefined, image = true,
