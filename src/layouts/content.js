@@ -5,8 +5,21 @@ const unitsMap = {
   imperial: '°F',
 };
 const ulDetails = document.createElement('ul');
-const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
-const secsUTCToDate = (secs, offset = '+0000') => moment.unix(secs).utcOffset(offset);
+const toDateUTCTime = (secs) => {
+
+  if (moment().utcOffset() == -0) {
+    // for heroku server
+    secs += 28800000
+  }
+  return moment().utcOffset(secs / 60);
+};
+const secsUTCToDate = (secs, offset = '+0000') => {
+  if (moment().utcOffset() == -0) {
+    // for heroku server
+    secs += 28800000
+  }
+  return moment.unix(secs).utcOffset(offset);
+}
 async function displayData(
   url, currNode, parentElement, valueOne, valueTwo = undefined, image = true,
 ) {
