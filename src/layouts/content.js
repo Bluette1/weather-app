@@ -97,7 +97,7 @@ const displayMeasurement = (url, text, units, valueOne, valueTwo) => {
 
 const displayContent = (rootElement, url, units) => {
   const tempToggle = document.createElement('div');
-  tempToggle.setAttribute('class', 'btn-group btn-group-toggle mt-n5 temp-toggle');
+  tempToggle.setAttribute('class', 'btn-group btn-group-toggle mt-5 mt-sm-n5 temp-toggle');
   tempToggle.setAttribute('data-toggle', 'buttons');
   const celsiusLabel = document.createElement('label');
   celsiusLabel.setAttribute('class', 'btn btn-primary');

@@ -62,7 +62,7 @@ class NavBar {
     searchForm.appendChild(searchBtn);
 
     const collapseNavbar = document.createElement('div');
-    collapseNavbar.setAttribute('class', 'collapse navbar-collapse d-md-flex flex-md-row justify-content-end');
+    collapseNavbar.setAttribute('class', 'collapse navbar-collapse d-md-flex flex-md-row justify-content-end mt-n4 mt-md-0');
     collapseNavbar.setAttribute('id', 'navbarSupportedContent');
 
     const navBar = document.createElement('nav');
