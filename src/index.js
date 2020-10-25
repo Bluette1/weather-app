@@ -7,13 +7,16 @@ import displayContent from './layouts/content';
 const API_KEY = process.env.APIKEY;
 
 const defaultCity = 'London';
-const city = defaultCity;
+const city = localStorage.getItem('city') ? JSON.parse(localStorage.getItem('city')) : 'London';
+
+const units = localStorage.getItem('units') ? JSON.parse(localStorage.getItem('units')) : 'metric';
+
 const url = 'https://api.openweathermap.org/data/2.5/weather?';
 const rootElement = document.querySelector('#root');
 rootElement.classList.add('hidden');
 
 
-const start = (city, units = 'metric') => {
+const start = () => {
 
   rootElement.innerHTML = '';
   const body = document.querySelector('body');
@@ -47,24 +50,25 @@ const start = (city, units = 'metric') => {
 
   farenheight.addEventListener('click', () => {
     if (farenheight.checked === true) {
-      start(city, 'imperial');
+      localStorage.setItem('units', JSON.stringify('imperial'));
+      window.location.reload();
     }
   });
   celsius.addEventListener('click', () => {
 
     if (celsius.checked === true) {
-      start(city, 'metric');
+      localStorage.setItem('units', JSON.stringify('metric'));
+      window.location.reload();
     }
   });
   searchBtn.addEventListener('click', (evt) => {
 
     evt.preventDefault();
-    city = inputSearch.value;
+    localStorage.setItem('city', JSON.stringify(inputSearch.value));
 
     searchForm.reset();
-
-    start(city, units);
+    window.location.reload();
   });
 };
 
-start(city);
+start();

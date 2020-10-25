@@ -161,10 +161,10 @@ const displayContent = (rootElement, url, units) => {
   moreDetails.className = 'card-header text-uppercase p-3 font-weight-bold';
   ulDetails.innerHTML = '';
   ulDetails.className = 'list-group list-group-flush';
-  displayMeasurement(url, 'Wind speed: ', 'meter/sec', 'wind', 'speed');
+  displayMeasurement(url, 'Wind speed: ', ' meter/sec', 'wind', 'speed');
   displayMeasurement(url, 'Wind direction: ', '°', 'wind', 'deg');
   displayMeasurement(url, 'Humidity: ', '%', 'main', 'humidity');
-  displayMeasurement(url, 'Pressure: ', 'hPa', 'main', 'pressure');
+  displayMeasurement(url, 'Pressure: ', ' hPa', 'main', 'pressure');
   displayMeasurement(url, 'Cloudiness: ', '%', 'clouds', 'all');
   displayMeasurement(url, 'Sunrise: ', '', 'sys', 'sunrise');
   displayMeasurement(url, 'Sunset: ', '', 'sys', 'sunset');
