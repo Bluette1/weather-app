@@ -94,6 +94,14 @@ a:hover {
   margin-bottom: -300px;
 }
 
+.hidden {
+  display: none;
+}
+
+.loading-component {
+  margin-top: 50%;
+}
+
 @media only screen and (min-width: 768px) {
   .centered-content {
     margin: 10rem auto;
@@ -107,5 +115,9 @@ a:hover {
 
   .weather-details {
     grid-column: 2/3;
+  }
+
+  .loading-component {
+    margin-top: 25%;
   }
 }

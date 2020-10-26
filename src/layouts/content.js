@@ -6,9 +6,7 @@ const unitsMap = {
 };
 const ulDetails = document.createElement('ul');
 const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
-
 const secsUTCToDate = (secs, offset = '+0000') => moment.unix(secs).utcOffset(offset);
-
 async function displayData(
   url, currNode, parentElement, valueOne, valueTwo = undefined, image = true,
 ) {
@@ -97,7 +95,7 @@ const displayMeasurement = (url, text, units, valueOne, valueTwo) => {
 
 const displayContent = (rootElement, url, units) => {
   const tempToggle = document.createElement('div');
-  tempToggle.setAttribute('class', 'btn-group btn-group-toggle mt-n5 temp-toggle');
+  tempToggle.setAttribute('class', 'btn-group btn-group-toggle mt-5 mt-sm-n5 temp-toggle');
   tempToggle.setAttribute('data-toggle', 'buttons');
   const celsiusLabel = document.createElement('label');
   celsiusLabel.setAttribute('class', 'btn btn-primary');
@@ -131,7 +129,7 @@ const displayContent = (rootElement, url, units) => {
   rootElement.append(tempToggle);
 
   const mainContent = document.createElement('div');
-  mainContent.setAttribute('class', 'card centered-content py-5 col-md-6 col-12');
+  mainContent.setAttribute('class', 'card centered-content py-5 col-md-9 col-lg-6 col-12');
   const weatherDescription = document.createElement('div');
   weatherDescription.setAttribute('class', 'card pr-3 mr-md-2 weather-description');
   const currWeather = document.createElement('h5');
@@ -161,10 +159,10 @@ const displayContent = (rootElement, url, units) => {
   moreDetails.className = 'card-header text-uppercase p-3 font-weight-bold';
   ulDetails.innerHTML = '';
   ulDetails.className = 'list-group list-group-flush';
-  displayMeasurement(url, 'Wind speed: ', 'meter/sec', 'wind', 'speed');
+  displayMeasurement(url, 'Wind speed: ', ' meter/sec', 'wind', 'speed');
   displayMeasurement(url, 'Wind direction: ', '°', 'wind', 'deg');
   displayMeasurement(url, 'Humidity: ', '%', 'main', 'humidity');
-  displayMeasurement(url, 'Pressure: ', 'hPa', 'main', 'pressure');
+  displayMeasurement(url, 'Pressure: ', ' hPa', 'main', 'pressure');
   displayMeasurement(url, 'Cloudiness: ', '%', 'clouds', 'all');
   displayMeasurement(url, 'Sunrise: ', '', 'sys', 'sunrise');
   displayMeasurement(url, 'Sunset: ', '', 'sys', 'sunset');
