@@ -14,13 +14,13 @@ async function displayData(
   const data = await response.json();
   if (!valueTwo) {
     if (valueOne === 'timezone') {
-      currNode.textContent = `${toDateUTCTime(data[valueOne])}`;
+      currNode.textContent = `${toDateUTCTime(data[valueOne]).format('LLLL')}`;
     }
   } else {
     currNode.textContent = `${data[valueOne][valueTwo]}`;
     if (valueTwo === 'sunrise' || valueTwo === 'sunset') {
       const offset = toDateUTCTime(data.timezone).utcOffset();
-      currNode.textContent = `${secsUTCToDate(data[valueOne][valueTwo], offset)}`;
+      currNode.textContent = `${secsUTCToDate(data[valueOne][valueTwo], offset).format('LLLL')}`;
     }
   }
 
