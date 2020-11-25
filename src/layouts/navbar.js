@@ -1,12 +1,14 @@
+const unitsMap = {
+  metric: '°C',
+  imperial: '°F',
+};
 const displayData = (displayCity, data, units) => {
-  const unitsMap = {
-    metric: '°C',
-    imperial: '°F',
-  };
 
   const displayWeather = `${data.name}, ${data.sys.country}, ${data.main.temp}${unitsMap[units]}`;
 
-  const displayWeatherInfo = document.createTextNode(displayWeather);
+  const displayWeatherInfo = document.createElement('span');
+  displayWeatherInfo.textContent = displayWeather;
+  displayWeatherInfo.setAttribute('id', 'weather-info');
 
   const weatherIcon = document.createElement('img');
   weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
@@ -79,6 +81,10 @@ class NavBar {
 
     navBar.insertBefore(displayCity, navBar.nextSibling);
     rootElement.append(navBar);
+  }
+
+  static toggleUnits = (data, displayWeatherInfo, units) => {
+    displayWeatherInfo.textContent = `${data.name}, ${data.sys.country}, ${data.main.temp}${unitsMap[units]}`;
   }
 }
 

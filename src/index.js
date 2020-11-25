@@ -21,10 +21,10 @@ const windowReload = (field, value) => {
   window.location.reload();
 };
 
-const checkUnits = (data) => {
+const checkUnits = (data, unit = units) => {
   let weatherInfo;
 
-  if (units === 'metric') {
+  if (unit === 'metric') {
     weatherInfo = data.metricResults
   } else {
     weatherInfo = data.imperialResults;
@@ -75,6 +75,8 @@ const start = () => {
       rootElement.classList.remove('hidden');
 
       const searchBtn = document.querySelector('#search-btn');
+      const displayWeatherInfo = document.querySelector('#weather-info');
+
       const inputSearch = document.querySelector('#input-search');
       const searchForm = document.querySelector('#search-form');
       const celsius = document.querySelector('#celsius');
@@ -82,12 +84,17 @@ const start = () => {
 
       farenheight.addEventListener('click', () => {
         if (farenheight.checked === true) {
-          windowReload('units', 'imperial');
+          // windowReload('units', 'imperial');
+          const weatherObj = checkUnits(weatherData, 'imperial');
+          NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'imperial');
         }
       });
       celsius.addEventListener('click', () => {
         if (celsius.checked === true) {
-          windowReload('units', 'metric');
+          // windowReload('units', 'metric');
+          const weatherObj = checkUnits(weatherData, 'metric');
+          NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'metric');
+
         }
       });
       searchBtn.addEventListener('click', (evt) => {
