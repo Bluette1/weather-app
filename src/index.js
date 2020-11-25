@@ -13,6 +13,7 @@ const units = 'metric';
 let weatherData = localStorage.getItem('weatherData') ? JSON.parse(localStorage.getItem('weatherData')) : null;
 const rootElement = document.querySelector('#root');
 rootElement.classList.add('hidden');
+const loadingContainer = document.createElement('div');
 
 const windowReload = (field, value) => {
   localStorage.setItem(field, JSON.stringify(value));
@@ -65,7 +66,7 @@ const addEventListeners = () => {
   });
 };
 
-const addContent = (loadingContainer) => {
+const addContent = () => {
   loadingContainer.remove();
   rootElement.classList.remove('hidden');
   const weatherObj = checkUnits(weatherData);
@@ -77,7 +78,6 @@ const addContent = (loadingContainer) => {
 const start = () => {
   rootElement.innerHTML = '';
   const body = document.querySelector('body');
-  const loadingContainer = document.createElement('div');
   loadingContainer.setAttribute('class', 'd-flex justify-content-center align-items-center loading-component text-primary');
   const loadingComponent = document.createElement('div');
 
@@ -91,12 +91,12 @@ const start = () => {
   loadingContainer.append(loadText);
   body.append(loadingContainer);
   if (weatherData && weatherData !== '') {
-    addContent(loadingContainer);
+    addContent();
   } else {
     weatherInfo(city, (error, data) => {
       if (!error && data) {
         weatherData = data;
-        addContent(loadingContainer);
+        addContent();
       }
     });
   }
