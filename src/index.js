@@ -51,6 +51,16 @@ const addEventListeners = () => {
     searchForm.reset();
   });
 }
+
+const addContent = (loadingContainer) => {
+  loadingContainer.remove();
+  rootElement.classList.remove('hidden');
+  const weatherObj = checkUnits(weatherData);
+  NavBar.displayNavbar(rootElement, weatherObj, units);
+  displayContent(rootElement, weatherObj, units);
+  addEventListeners();
+}
+
 const checkUnits = (data, unit = units) => {
   let weatherInfo;
 
@@ -83,23 +93,12 @@ const start = () => {
   loadingContainer.append(loadText);
   body.append(loadingContainer);
   if (weatherData && weatherData !== '') {
-    loadingContainer.remove();
-    rootElement.classList.remove('hidden');
-    const weatherObj = checkUnits(weatherData);
-    NavBar.displayNavbar(rootElement, weatherObj, units);
-    displayContent(rootElement, weatherObj, units);
-    addEventListeners();
+    addContent(loadingContainer);
   } else {
     weatherInfo(city, (error, data) => {
       if (error) {} else {
-        loadingContainer.remove();
-        rootElement.classList.remove('hidden');
         weatherData = data;
-
-        const weatherObj = checkUnits(weatherData);
-        NavBar.displayNavbar(rootElement, weatherObj, units);
-        displayContent(rootElement, weatherObj, units);
-        addEventListeners();
+        addContent(loadingContainer);
       }
     });
   }
