@@ -3,7 +3,6 @@ const unitsMap = {
   imperial: '°F',
 };
 const displayData = (displayCity, data, units) => {
-
   const displayWeather = `${data.name}, ${data.sys.country}, ${data.main.temp}${unitsMap[units]}`;
 
   const displayWeatherInfo = document.createElement('span');
@@ -13,7 +12,7 @@ const displayData = (displayCity, data, units) => {
   const weatherIcon = document.createElement('img');
   weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
   displayCity.append(displayWeatherInfo, weatherIcon);
-}
+};
 
 class NavBar {
   static displayNavbar = (rootElement, data, units) => {

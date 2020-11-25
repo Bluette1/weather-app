@@ -4,18 +4,31 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import NavBar from './layouts/navbar';
 import {
   displayContent,
-  toggleUnits
+  toggleUnits,
 } from './layouts/content';
 import weatherInfo from './helpers/proxyHelper';
 
 const city = localStorage.getItem('city') ? JSON.parse(localStorage.getItem('city')) : 'London';
-const units = localStorage.getItem('units') ? JSON.parse(localStorage.getItem('units')) : 'metric';
+const units = 'metric';
 let weatherData = localStorage.getItem('weatherData') ? JSON.parse(localStorage.getItem('weatherData')) : null;
+const rootElement = document.querySelector('#root');
+rootElement.classList.add('hidden');
 
 const windowReload = (field, value) => {
   localStorage.setItem(field, JSON.stringify(value));
   localStorage.setItem('weatherData', '');
   window.location.reload();
+};
+
+const checkUnits = (data, unit = units) => {
+  let weatherInfo;
+
+  if (unit === 'metric') {
+    weatherInfo = data.metricResults;
+  } else {
+    weatherInfo = data.imperialResults;
+  }
+  return weatherInfo;
 };
 
 const addEventListeners = () => {
@@ -50,7 +63,7 @@ const addEventListeners = () => {
     windowReload('city', inputSearch.value);
     searchForm.reset();
   });
-}
+};
 
 const addContent = (loadingContainer) => {
   loadingContainer.remove();
@@ -59,24 +72,9 @@ const addContent = (loadingContainer) => {
   NavBar.displayNavbar(rootElement, weatherObj, units);
   displayContent(rootElement, weatherObj, units);
   addEventListeners();
-}
-
-const checkUnits = (data, unit = units) => {
-  let weatherInfo;
-
-  if (unit === 'metric') {
-    weatherInfo = data.metricResults
-  } else {
-    weatherInfo = data.imperialResults;
-  }
-  return weatherInfo;
-}
-const url = 'https://api.openweathermap.org/data/2.5/weather?';
-const rootElement = document.querySelector('#root');
-rootElement.classList.add('hidden');
+};
 
 const start = () => {
-
   rootElement.innerHTML = '';
   const body = document.querySelector('body');
   const loadingContainer = document.createElement('div');
@@ -96,7 +94,7 @@ const start = () => {
     addContent(loadingContainer);
   } else {
     weatherInfo(city, (error, data) => {
-      if (error) {} else {
+      if (!error && data) {
         weatherData = data;
         addContent(loadingContainer);
       }

@@ -1,12 +1,12 @@
-const base_url = 'https://api.openweathermap.org/data/2.5/weather?';
+const baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
 const API_KEY = process.env.APIKEY;
 async function fetchWeatherInfo(city) {
-  const url = `${base_url}q=${city}&appid=${API_KEY}`;
+  const url = `${baseUrl}q=${city}&appid=${API_KEY}`;
   const urlMetricPath = `${url}&units=metric`;
   const urlImperialPath = `${url}&units=imperial`;
   const [metricResponse, imperialResponse] = await Promise.all([
     fetch(urlMetricPath),
-    fetch(urlImperialPath)
+    fetch(urlImperialPath),
   ]);
 
   const metricResults = await metricResponse.json();
@@ -14,7 +14,7 @@ async function fetchWeatherInfo(city) {
 
   return {
     metricResults,
-    imperialResults
+    imperialResults,
   };
 }
 const weatherInfo = (city, callback) => fetchWeatherInfo(city)
