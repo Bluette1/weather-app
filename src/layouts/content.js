@@ -4,14 +4,19 @@ const unitsMap = {
   metric: '°C',
   imperial: '°F',
 };
+
+const unitsMetrics = {
+  metric: null,
+  imperial: null
+}
 const ulDetails = document.createElement('ul');
 const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
 const secsUTCToDate = (secs, offset = '+0000') => moment.unix(secs).utcOffset(offset);
-async function displayData(
-  url, currNode, parentElement, valueOne, valueTwo = undefined, image = true,
+
+function displayData(
+  data, currNode, parentElement, valueOne, valueTwo = undefined, image = true,
+
 ) {
-  const response = await fetch(url, { mode: 'cors' });
-  const data = await response.json();
   if (!valueTwo) {
     if (valueOne === 'timezone') {
       currNode.textContent = `${toDateUTCTime(data[valueOne]).format('LLLL')}`;
@@ -44,44 +49,44 @@ async function displayData(
   }
 }
 
-const displayTemperature = (url, temp, currTemp, temperature, tempUnits, weatherDescription) => {
-  displayData(url, temp, currTemp, 'main', 'temp', false).then(() => {
-    temperature.append(currTemp);
+const displayTemperature = (data, temp, currTemp, temperature, tempUnits, weatherDescription) => {
+  displayData(data, temp, currTemp, 'main', 'temp', false)
 
-    temp.after(tempUnits);
-  }).then(() => {
-    const feelsLike = document.createElement('div');
-    feelsLike.setAttribute('class', 'feels-like');
+  temperature.append(currTemp);
 
-    const feelsLikeText = document.createElement('span');
-    feelsLikeText.textContent = 'RealFeel';
-    const feelsLikeIcon = document.createElement('i');
-    feelsLikeIcon.className = 'fa fa-registered pr-1 registered-icon';
-    feelsLike.append(feelsLikeText);
-    feelsLike.append(feelsLikeIcon);
-    const feelsLikeTemp = document.createElement('span');
-    displayData(url, feelsLikeTemp, feelsLike, 'main', 'feels_like', false).then(() => {
-      const feelsLikeDegrees = document.createElement('span');
-      feelsLikeDegrees.textContent = '°';
-      feelsLikeTemp.after(feelsLikeDegrees);
-      temperature.append(feelsLike);
-      weatherDescription.append(temperature);
-    });
-  });
+  temp.after(tempUnits);
+
+  const feelsLike = document.createElement('div');
+  feelsLike.setAttribute('class', 'feels-like');
+
+  const feelsLikeText = document.createElement('span');
+  feelsLikeText.textContent = 'RealFeel';
+  const feelsLikeIcon = document.createElement('i');
+  feelsLikeIcon.className = 'fa fa-registered pr-1 registered-icon';
+  feelsLike.append(feelsLikeText);
+  feelsLike.append(feelsLikeIcon);
+  const feelsLikeTemp = document.createElement('span');
+  displayData(data, feelsLikeTemp, feelsLike, 'main', 'feels_like', false)
+  const feelsLikeDegrees = document.createElement('span');
+  feelsLikeDegrees.textContent = '°';
+  feelsLikeTemp.after(feelsLikeDegrees);
+  temperature.append(feelsLike);
+  weatherDescription.append(temperature);
 };
 
 const displayUnitsAfterMeasurement = (
-  url, units, currNode, parentElement, valueOne, valueTwo = undefined,
+  data, units, currNode, parentElement, valueOne, valueTwo = undefined,
 ) => {
-  displayData(url, currNode, parentElement, valueOne, valueTwo, false).then(() => {
-    const unitsItem = document.createElement('span');
-    unitsItem.textContent = units;
+  displayData(data, currNode, parentElement, valueOne, valueTwo, false)
 
-    currNode.after(unitsItem);
-  });
+  const unitsItem = document.createElement('span');
+  unitsItem.textContent = units;
+
+  currNode.after(unitsItem);
+
 };
 
-const displayMeasurement = (url, text, units, valueOne, valueTwo) => {
+const displayMeasurement = (data, text, units, valueOne, valueTwo) => {
   const li = document.createElement('li');
   li.className = 'list-group-item';
   const liText = document.createElement('span');
@@ -89,11 +94,11 @@ const displayMeasurement = (url, text, units, valueOne, valueTwo) => {
   li.append(liText);
   const itemMetrics = document.createElement('span');
 
-  displayUnitsAfterMeasurement(url, units, itemMetrics, li, valueOne, valueTwo, false);
+  displayUnitsAfterMeasurement(data, units, itemMetrics, li, valueOne, valueTwo, false);
   ulDetails.append(li);
 };
 
-const displayContent = (rootElement, url, units) => {
+const displayContent = (rootElement, data, units) => {
   const tempToggle = document.createElement('div');
   tempToggle.setAttribute('class', 'btn-group btn-group-toggle mt-5 mt-sm-n5 temp-toggle');
   tempToggle.setAttribute('data-toggle', 'buttons');
@@ -147,9 +152,9 @@ const displayContent = (rootElement, url, units) => {
   temp.setAttribute('class', 'h2 font-weight-bold');
   const tempUnits = document.createElement('span');
   tempUnits.textContent = unitsMap[units];
-  displayData(url, currTime, weatherDescription, 'timezone', undefined);
+  displayData(data, currTime, weatherDescription, 'timezone', undefined);
 
-  displayTemperature(url, temp, currTemp, temperature, tempUnits, weatherDescription);
+  displayTemperature(data, temp, currTemp, temperature, tempUnits, weatherDescription);
 
   const weatherDetails = document.createElement('div');
   weatherDetails.setAttribute('class', 'card ml-md-2 mt-2 mt-md-0 weather-details');
@@ -159,13 +164,13 @@ const displayContent = (rootElement, url, units) => {
   moreDetails.className = 'card-header text-uppercase p-3 font-weight-bold';
   ulDetails.innerHTML = '';
   ulDetails.className = 'list-group list-group-flush';
-  displayMeasurement(url, 'Wind speed: ', ' meter/sec', 'wind', 'speed');
-  displayMeasurement(url, 'Wind direction: ', '°', 'wind', 'deg');
-  displayMeasurement(url, 'Humidity: ', '%', 'main', 'humidity');
-  displayMeasurement(url, 'Pressure: ', ' hPa', 'main', 'pressure');
-  displayMeasurement(url, 'Cloudiness: ', '%', 'clouds', 'all');
-  displayMeasurement(url, 'Sunrise: ', '', 'sys', 'sunrise');
-  displayMeasurement(url, 'Sunset: ', '', 'sys', 'sunset');
+  displayMeasurement(data, 'Wind speed: ', ' meter/sec', 'wind', 'speed');
+  displayMeasurement(data, 'Wind direction: ', '°', 'wind', 'deg');
+  displayMeasurement(data, 'Humidity: ', '%', 'main', 'humidity');
+  displayMeasurement(data, 'Pressure: ', ' hPa', 'main', 'pressure');
+  displayMeasurement(data, 'Cloudiness: ', '%', 'clouds', 'all');
+  displayMeasurement(data, 'Sunrise: ', '', 'sys', 'sunrise');
+  displayMeasurement(data, 'Sunset: ', '', 'sys', 'sunset');
 
   mainContent.append(weatherDescription);
   weatherDetails.append(ulDetails);
