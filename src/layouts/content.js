@@ -5,9 +5,10 @@ const unitsMap = {
   imperial: '°F',
 };
 
-const unitsMetrics = {
-  metric: null,
-  imperial: null
+const toggleUnits = (temp, tempUnits, feelsLike, data, units) => {
+  temp.textContent = data.main.temp;
+  tempUnits.textContent = unitsMap[units];
+  feelsLike.textContent = data.main.feels_like;
 }
 const ulDetails = document.createElement('ul');
 const toDateUTCTime = (secs) => moment().utcOffset(secs / 60);
@@ -66,6 +67,7 @@ const displayTemperature = (data, temp, currTemp, temperature, tempUnits, weathe
   feelsLike.append(feelsLikeText);
   feelsLike.append(feelsLikeIcon);
   const feelsLikeTemp = document.createElement('span');
+  feelsLikeTemp.setAttribute('id', 'feels-like');
   displayData(data, feelsLikeTemp, feelsLike, 'main', 'feels_like', false)
   const feelsLikeDegrees = document.createElement('span');
   feelsLikeDegrees.textContent = '°';
@@ -150,8 +152,10 @@ const displayContent = (rootElement, data, units) => {
   currTemp.setAttribute('class', 'p-3 temp');
   const temp = document.createElement('span');
   temp.setAttribute('class', 'h2 font-weight-bold');
+  temp.setAttribute('id', 'temp');
   const tempUnits = document.createElement('span');
   tempUnits.textContent = unitsMap[units];
+  tempUnits.setAttribute('id', 'temp-units');
   displayData(data, currTime, weatherDescription, 'timezone', undefined);
 
   displayTemperature(data, temp, currTemp, temperature, tempUnits, weatherDescription);
@@ -179,4 +183,4 @@ const displayContent = (rootElement, data, units) => {
   rootElement.append(mainContent);
 };
 
-export default displayContent;
+export { displayContent, toggleUnits };;

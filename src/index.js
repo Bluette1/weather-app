@@ -2,7 +2,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/styles/index.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import NavBar from './layouts/navbar';
-import displayContent from './layouts/content';
+import {
+  displayContent,
+  toggleUnits
+} from './layouts/content';
 import weatherInfo from './helpers/proxyHelper';
 
 const API_KEY = process.env.APIKEY;
@@ -76,6 +79,10 @@ const start = () => {
 
       const searchBtn = document.querySelector('#search-btn');
       const displayWeatherInfo = document.querySelector('#weather-info');
+      const temp = document.querySelector('#temp');
+      const tempUnits = document.querySelector('#temp-units');
+      const feelsLike = document.querySelector('#feels-like');
+
 
       const inputSearch = document.querySelector('#input-search');
       const searchForm = document.querySelector('#search-form');
@@ -84,17 +91,16 @@ const start = () => {
 
       farenheight.addEventListener('click', () => {
         if (farenheight.checked === true) {
-          // windowReload('units', 'imperial');
           const weatherObj = checkUnits(weatherData, 'imperial');
           NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'imperial');
+          toggleUnits(temp, tempUnits, feelsLike, weatherObj, 'imperial');
         }
       });
       celsius.addEventListener('click', () => {
         if (celsius.checked === true) {
-          // windowReload('units', 'metric');
           const weatherObj = checkUnits(weatherData, 'metric');
           NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'metric');
-
+          toggleUnits(temp, tempUnits, feelsLike, weatherObj, 'metric');
         }
       });
       searchBtn.addEventListener('click', (evt) => {
