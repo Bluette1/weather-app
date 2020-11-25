@@ -8,22 +8,49 @@ import {
 } from './layouts/content';
 import weatherInfo from './helpers/proxyHelper';
 
-const API_KEY = process.env.APIKEY;
-const city = localStorage.getItem('city') ? JSON.parse(localStorage.getItem('city')) : 'Accra';
+const city = localStorage.getItem('city') ? JSON.parse(localStorage.getItem('city')) : 'London';
 const units = localStorage.getItem('units') ? JSON.parse(localStorage.getItem('units')) : 'metric';
 let weatherData = localStorage.getItem('weatherData') ? JSON.parse(localStorage.getItem('weatherData')) : null;
 
 const windowReload = (field, value) => {
   localStorage.setItem(field, JSON.stringify(value));
-
-  if (weatherData) {
-    localStorage.setItem('weatherData', JSON.stringify(weatherData));
-  } else {
-    localStorage.setItem('weatherData', '');
-  }
+  localStorage.setItem('weatherData', '');
   window.location.reload();
 };
 
+const addEventListeners = () => {
+  const searchBtn = document.querySelector('#search-btn');
+  const displayWeatherInfo = document.querySelector('#weather-info');
+  const temp = document.querySelector('#temp');
+  const tempUnits = document.querySelector('#temp-units');
+  const feelsLike = document.querySelector('#feels-like');
+
+  const inputSearch = document.querySelector('#input-search');
+  const searchForm = document.querySelector('#search-form');
+  const celsius = document.querySelector('#celsius');
+  const farenheight = document.querySelector('#farenheight');
+
+  farenheight.addEventListener('click', () => {
+    if (farenheight.checked === true) {
+      const weatherObj = checkUnits(weatherData, 'imperial');
+      NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'imperial');
+      toggleUnits(temp, tempUnits, feelsLike, weatherObj, 'imperial');
+    }
+  });
+  celsius.addEventListener('click', () => {
+    if (celsius.checked === true) {
+      const weatherObj = checkUnits(weatherData, 'metric');
+      NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'metric');
+      toggleUnits(temp, tempUnits, feelsLike, weatherObj, 'metric');
+    }
+  });
+  searchBtn.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    weatherData = null;
+    windowReload('city', inputSearch.value);
+    searchForm.reset();
+  });
+}
 const checkUnits = (data, unit = units) => {
   let weatherInfo;
 
@@ -56,61 +83,26 @@ const start = () => {
   loadingContainer.append(loadText);
   body.append(loadingContainer);
   if (weatherData && weatherData !== '') {
+    loadingContainer.remove();
+    rootElement.classList.remove('hidden');
     const weatherObj = checkUnits(weatherData);
     NavBar.displayNavbar(rootElement, weatherObj, units);
     displayContent(rootElement, weatherObj, units);
+    addEventListeners();
   } else {
     weatherInfo(city, (error, data) => {
       if (error) {} else {
+        loadingContainer.remove();
+        rootElement.classList.remove('hidden');
         weatherData = data;
 
         const weatherObj = checkUnits(weatherData);
         NavBar.displayNavbar(rootElement, weatherObj, units);
         displayContent(rootElement, weatherObj, units);
-
+        addEventListeners();
       }
     });
   }
-
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      loadingContainer.remove();
-      rootElement.classList.remove('hidden');
-
-      const searchBtn = document.querySelector('#search-btn');
-      const displayWeatherInfo = document.querySelector('#weather-info');
-      const temp = document.querySelector('#temp');
-      const tempUnits = document.querySelector('#temp-units');
-      const feelsLike = document.querySelector('#feels-like');
-
-
-      const inputSearch = document.querySelector('#input-search');
-      const searchForm = document.querySelector('#search-form');
-      const celsius = document.querySelector('#celsius');
-      const farenheight = document.querySelector('#farenheight');
-
-      farenheight.addEventListener('click', () => {
-        if (farenheight.checked === true) {
-          const weatherObj = checkUnits(weatherData, 'imperial');
-          NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'imperial');
-          toggleUnits(temp, tempUnits, feelsLike, weatherObj, 'imperial');
-        }
-      });
-      celsius.addEventListener('click', () => {
-        if (celsius.checked === true) {
-          const weatherObj = checkUnits(weatherData, 'metric');
-          NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'metric');
-          toggleUnits(temp, tempUnits, feelsLike, weatherObj, 'metric');
-        }
-      });
-      searchBtn.addEventListener('click', (evt) => {
-        evt.preventDefault();
-        weatherData = null;
-        windowReload('city', inputSearch.value);
-        searchForm.reset();
-      });
-    }, 1000);
-  });
 };
 
 start();
