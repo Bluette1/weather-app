@@ -9,11 +9,15 @@ import {
 import weatherInfo from './helpers/proxyHelper';
 
 const city = localStorage.getItem('city') ? JSON.parse(localStorage.getItem('city')) : 'London';
-const units = 'metric';
+const units = localStorage.getItem('units') ? localStorage.getItem('units') : 'metric';
 let weatherData = localStorage.getItem('weatherData') ? JSON.parse(localStorage.getItem('weatherData')) : null;
 const rootElement = document.querySelector('#root');
 rootElement.classList.add('hidden');
 const loadingContainer = document.createElement('div');
+let displayWeatherInfo;
+let temp;
+let tempUnits;
+let feelsLike;
 
 const windowReload = (field, value) => {
   localStorage.setItem(field, JSON.stringify(value));
@@ -32,12 +36,19 @@ const checkUnits = (data, unit = units) => {
   return weatherInfo;
 };
 
+const toggleTempUnits = (unit = units) => {
+  localStorage.setItem('units', unit);
+  const weatherObj = checkUnits(weatherData, unit);
+  NavBar.toggleUnits(weatherObj, displayWeatherInfo, unit);
+  toggleUnits(temp, tempUnits, feelsLike, weatherObj, unit);
+};
+
 const addEventListeners = () => {
   const searchBtn = document.querySelector('#search-btn');
-  const displayWeatherInfo = document.querySelector('#weather-info');
-  const temp = document.querySelector('#temp');
-  const tempUnits = document.querySelector('#temp-units');
-  const feelsLike = document.querySelector('#feels-like');
+  displayWeatherInfo = document.querySelector('#weather-info');
+  temp = document.querySelector('#temp');
+  tempUnits = document.querySelector('#temp-units');
+  feelsLike = document.querySelector('#feels-like');
 
   const inputSearch = document.querySelector('#input-search');
   const searchForm = document.querySelector('#search-form');
@@ -46,16 +57,12 @@ const addEventListeners = () => {
 
   farenheight.addEventListener('click', () => {
     if (farenheight.checked === true) {
-      const weatherObj = checkUnits(weatherData, 'imperial');
-      NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'imperial');
-      toggleUnits(temp, tempUnits, feelsLike, weatherObj, 'imperial');
+      toggleTempUnits('imperial');
     }
   });
   celsius.addEventListener('click', () => {
     if (celsius.checked === true) {
-      const weatherObj = checkUnits(weatherData, 'metric');
-      NavBar.toggleUnits(weatherObj, displayWeatherInfo, 'metric');
-      toggleUnits(temp, tempUnits, feelsLike, weatherObj, 'metric');
+      toggleTempUnits('metric');
     }
   });
   searchBtn.addEventListener('click', (evt) => {
