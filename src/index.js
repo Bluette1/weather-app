@@ -6,7 +6,7 @@ import {
   displayContent,
   toggleUnits,
 } from './layouts/content';
-import weatherInfo from './helpers/proxyHelper';
+import weatherInfo from './helpers/apiHelper';
 
 const city = localStorage.getItem('city') ? JSON.parse(localStorage.getItem('city')) : 'London';
 const units = localStorage.getItem('units') ? localStorage.getItem('units') : 'metric';
