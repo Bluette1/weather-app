@@ -25,7 +25,7 @@ This project was done mainly for learning purposes, the aim was to practice usin
     - view images/icons corresponding to the current weather
 
 ## Deployed Site
-[Weather app on Netlify](https://jovial-pike-e24dca.netlify.app/)
+[Weather app on Netlify](https://accurate-weather-global.netlify.app/)
 
 ## Running and testing it locally
 
